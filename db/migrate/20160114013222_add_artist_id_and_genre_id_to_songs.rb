@@ -3,4 +3,4 @@ class AddArtistIdAndGenreIdToSongs < ActiveRecord::Migration
     add_column :songs, :artist_id, :integer
     add_column :songs, :genre_id, :integer
   end
-end
+end 
