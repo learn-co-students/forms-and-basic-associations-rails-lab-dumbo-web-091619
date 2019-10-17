@@ -3,6 +3,7 @@ class Song < ActiveRecord::Base
   belongs_to :artist
   belongs_to :genre
   has_many :notes
+  accepts_nested_attributes_for :notes
   
   def genre_name=(name)
     genre = Genre.find_or_create_by(name: name)
@@ -24,7 +25,7 @@ class Song < ActiveRecord::Base
 
   def note_contents=(notes)
     notes.each do |content|
-      if content.strip != ''
+      if content.length > 0
         self.notes.build(content: content)
       end
     end
@@ -35,4 +36,6 @@ class Song < ActiveRecord::Base
       note.content
     end
   end
+
+
 end

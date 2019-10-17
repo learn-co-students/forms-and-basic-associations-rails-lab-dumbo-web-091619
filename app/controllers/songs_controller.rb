@@ -11,11 +11,13 @@ class SongsController < ApplicationController
   def new
     @song = Song.new
     @genres = Genre.all
+    @song.notes.build(content: "first note")
+    @song.notes.build(content: "second note")
   end
 
   def create
-    @song = Song.create(song_params(:title, :artist_name, :genre_id, note_contents: []))
-      redirect_to @song
+    @song = Song.create(song_params)
+    redirect_to @song
   end
 
   def edit
@@ -25,7 +27,7 @@ class SongsController < ApplicationController
   def update
     @song = Song.find(params[:id])
 
-    @song.update(song_params(:title, :artist_name, :genre_id, note_contents: []))
+    @song.update(song_params(:title, :artist_name, :genre_id, notes_attributes: [:content]))
 
     if @song.save
       redirect_to @song
@@ -44,7 +46,7 @@ class SongsController < ApplicationController
   private
 
   def song_params(*args)
-    params.require(:song).permit(*args)
+    params.require(:song).permit(:title, :artist_name, :genre_id, notes_attributes: [:content])
   end
 end
 
